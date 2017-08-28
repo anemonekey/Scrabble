@@ -1,10 +1,9 @@
-#require_relative '../lib/scrabble'
-
 module Scrabble
   class Scoring
 
-    def initialize
-      @scores = {
+    attr_reader :scores
+
+      SCORES = {
         1 => ["A", "E", "I", "O", "U", "L", "N", "R", "S", "T"],
         2 => ["D", "G"],
         3 => ["B", "C", "M", "P"],
@@ -13,14 +12,13 @@ module Scrabble
         8 => ["J", "X"],
         10 => ["Q", "Z"]
       }
-    end
 
     def self.score(word)
       count = 0
-      for i in 0 ... str_1.length
-        @scores.each do |key, value|
-          if value.include?(str[1].upcase)
-            count += @scores.key
+      for i in 0 ... word.length
+        SCORES.each do |key, value|
+          if value.include?(word[i].upcase)
+            count += key
           end
         end
       end
