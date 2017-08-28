@@ -1,3 +1,5 @@
-class Scoring
-  
+module Scrabble
+  class Scoring
+
+  end
 end
