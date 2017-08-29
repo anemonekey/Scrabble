@@ -48,6 +48,18 @@ describe "Scoring class" do
       words = ["heal", "hail", "vest", "hair"]
       Scrabble::Scoring.highest_score(words).must_equal "heal"
     end
+
+    it "If multiple 7 letter words, chooses the first" do
+      # artists, runless, terrors = 7 points
+      words = ["artists", "runless", "terrors"]
+      Scrabble::Scoring.highest_score(words).must_equal "artists"
+    end
+
+    it "If empty array, the Array given will be empty" do
+      words = []
+      Scrabble::Scoring.highest_score(words).must_be_empty
+    end
+
   end
 
 end
