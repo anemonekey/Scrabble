@@ -57,7 +57,7 @@ describe "Scoring class" do
 
     it "If empty array, the Array given will be empty" do
       words = []
-      Scrabble::Scoring.highest_score(words).must_be_empty
+      Scrabble::Scoring.highest_score(words).must_be_nil
     end
 
   end
