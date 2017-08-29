@@ -48,6 +48,8 @@ describe "Scoring class" do
       words = ["heal", "hail", "vest", "hair"]
       Scrabble::Scoring.highest_score(words).must_equal "heal"
     end
+
+    #add two more tests to check for an empty array and for 2 words with 7 letters
   end
 
 end
