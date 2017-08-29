@@ -4,7 +4,7 @@ module Scrabble
 
   class Player
 
-    attr_reader :name, :plays
+    attr_reader :name, :plays, :total_score
 
     def initialize(name)
       @name = name
@@ -13,14 +13,18 @@ module Scrabble
     end
 
     def play(word)
-      @plays << word
       if won?
         return false
       end
+
       score = Scoring.score(word)
       @total_score += score
-      return score
 
+      if score > 0
+        @plays << word
+      end
+      
+      return score
     end #end of play(word)
 
     def won?

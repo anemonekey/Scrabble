@@ -14,20 +14,23 @@ module Scrabble
     }
 
     def self.score(word)
-      count = 0
-      for i in 0 ... word.length
-        SCORES.each do |key, value|
-          if value.include?(word[i].upcase)
-            count += key
+      if word.class == String
+        count = 0
+        for i in 0 ... word.length
+          SCORES.each do |key, value|
+            if value.include?(word[i].upcase)
+              count += key
+            end
           end
         end
-      end
 
-      if word.length == 7
-        count += 50
-      end
+        if word.length == 7
+          count += 50
+        end
 
-      return count
+        return count
+      end
+      return 0
 
     end #end of score method
 
