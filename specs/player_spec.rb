@@ -33,7 +33,7 @@ describe "Player class" do
       @person.plays.must_equal ["ariel", "sebastian"]
     end
     it "Raises an error when given an Integer" do
-      proc { @person.play(33) }.must_raise ArgumentError
+      @person.play(33).must_equal 0
     end
   end
 
@@ -45,8 +45,9 @@ describe "Player class" do
     end
     it "Returns the sum of words and unexpected inputs" do
       @person.play("")
-      @person.play(555)
       @person.play("dog")
+      @person.play(555)
+
       @person.total_score.must_equal 5
     end
   end

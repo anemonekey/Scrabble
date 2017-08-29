@@ -18,6 +18,13 @@ describe "Scoring class" do
     it "Adds a bonus for 7-letter words" do
       Scrabble::Scoring.score("queenly").must_equal (10+1+1+1+1+1+4+50)
     end
+    it "Gives the correct score for an integer" do
+      Scrabble::Scoring.score(77).must_equal 0
+    end
+    it "Gives the correct score for a nil" do
+      Scrabble::Scoring.score("").must_equal 0
+    end
+
   end
 
   describe "self.highest_score(array_of_words) method" do
