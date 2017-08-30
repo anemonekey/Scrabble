@@ -1,4 +1,3 @@
-# require_relative 'spec_helper'
 require_relative 'scoring'
 
 module Scrabble
@@ -14,7 +13,7 @@ module Scrabble
       available_tiles = @tiles.select { |key, value| value != 0 }
 
       drawn_tiles = available_tiles.keys.sample(num)
-      @tiles.each_with_index do |(key, value), index|
+      @tiles.each do |key, value|
         if drawn_tiles.include?(key.to_sym)
           puts "found"
           @tiles[key] = value - 1
@@ -32,4 +31,4 @@ module Scrabble
 end #end of module Scrabble
 
 #tests
-puts Scrabble::TileBag.new.draw_tiles(3)
+# puts Scrabble::TileBag.new.draw_tiles(3)
