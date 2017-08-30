@@ -81,4 +81,39 @@ describe "Player class" do
     end
   end
 
+  describe "tiles variable" do
+    it "Is an Array" do
+      @person.tiles.must_be_kind_of Array
+    end
+    it "Does not have more than 7 tiles" do
+      @person.tiles.length.must_be :<=, 7
+    end
+  end
+
+  describe "draw_tiles(tilebag) method" do
+    it "Fills empty tiles Array with 7 letters" do
+      tilebag = TileBag.new
+      @person.draw_tiles(tilebag)
+      @person.tiles.length.must_be 7
+    end
+
+    it "Fills tiles Array after playing a word with 7 letters" do
+      tilebag = TileBag.new
+      @person.draw_tiles(tilebag)
+      @person.play("#{@person.tiles[0]}#{@person.tiles[1]}")
+      @person.draw_tiles(tilebag)
+      @person.tiles.length.must_be 7
+    end
+
+    it "Does not give tiles when taking more tiles than inside tilebag" do
+      tilebag = TileBag.new
+      14.times do
+        @person.draw_tiles(tilebag)
+        @person.play("#{@person.tiles[0]}#{@person.tiles[1]}#{@person.tiles[2]}#{@person.tiles[3]}#{@person.tiles[4]}#{@person.tiles[5]}#{@person.tiles[6]}")
+      end
+      @person.draw_tiles(tilebag)
+      @person.tiles.length.must_be 0
+    end
+  end
+
 end
