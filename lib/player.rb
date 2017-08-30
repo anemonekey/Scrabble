@@ -1,4 +1,4 @@
-require_relative 'scoring.rb'
+require_relative 'scoring'
 
 module Scrabble
 
@@ -23,7 +23,7 @@ module Scrabble
       if score > 0
         @plays << word
       end
-      
+
       return score
     end #end of play(word)
 
