@@ -1,8 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/reporters'
-require 'minitest/skip_dsl'
-require 'minitest/pride'
-require_relative '../lib/player.rb'
+require_relative 'spec_helper'
 
 describe "Player class" do
 
