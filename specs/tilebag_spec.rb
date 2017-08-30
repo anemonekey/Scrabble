@@ -25,12 +25,11 @@ describe "Tilebag class" do
     end
   end
 
-  xdescribe "#tiles_remaining method" do
+  describe "#tiles_remaining method" do
     it "Must return an Integer value" do
-      @tilebag.tiles_remaining.class.must_be_kind_of Integer
+      @tilebag.tiles_remaining.must_be_kind_of Integer
     end
     it "Must correctly return the number of tiles remaining" do
-      # 98 total tiles
       @tilebag.draw_tiles(5)
       @tilebag.tiles_remaining.must_equal (98-5)
     end

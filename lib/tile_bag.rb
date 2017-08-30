@@ -15,13 +15,15 @@ module Scrabble
       drawn_tiles = available_tiles.keys.sample(num)
       @tiles.each do |key, value|
         if drawn_tiles.include?(key.to_sym)
-          puts "found"
           @tiles[key] = value - 1
         end
       end
-      puts @tiles
       return drawn_tiles
     end #end of draw method
+
+    def tiles_remaining
+      return @tiles.values.reduce(:+)
+    end #end of tiles_remaining
 
 
 
@@ -29,6 +31,3 @@ module Scrabble
 
 
 end #end of module Scrabble
-
-#tests
-# puts Scrabble::TileBag.new.draw_tiles(3)
