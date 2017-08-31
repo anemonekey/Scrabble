@@ -23,14 +23,17 @@ describe "Player class" do
       @person.play("")
       @person.plays.must_be_empty
     end
+
     it "Adds word played to Array" do
       @person.play("ariel")
       @person.play("sebastian")
       @person.plays.must_equal ["ariel", "sebastian"]
     end
+
     it "Raises an error when given an Integer" do
       @person.play(33).must_equal 0
     end
+
   end
 
   describe "total_score variable" do
@@ -39,11 +42,11 @@ describe "Player class" do
       @person.play("dog")
       @person.total_score.must_equal 62
     end
+
     it "Returns the sum of words and unexpected inputs" do
       @person.play("")
       @person.play("dog")
       @person.play(555)
-
       @person.total_score.must_equal 5
     end
   end
@@ -85,6 +88,7 @@ describe "Player class" do
     it "Is an Array" do
       @person.tiles.must_be_kind_of Array
     end
+
     it "Does not have more than 7 tiles" do
       @person.tiles.length.must_be :<=, 7
     end
@@ -111,7 +115,28 @@ describe "Player class" do
       second_hand = @person.draw_tiles(tilebag)
       first_hand.must_equal second_hand
     end
+  end
 
+# Optional Enhancements tests
+  describe "valid? method" do
+    it "Will return false when player plays letters not in their hand" do
+      tilebag = Scrabble::TileBag.new
+      alphabet = Scrabble::TileBag.tiles.keys.map { |letter| letter.to_s }
+      user_hand = @person.draw_tiles(tilebag)
+      not_hand = []
+      rand(1..7).times do
+        letter = alphabet.sample(1)
+        not_hand << letter unless user_hand.include? letter
+      end
+      @person.play(not_hand).must_equal false
+    end
+
+    it "Will return true when player plays letters in their hand" do
+      tilebag = Scrabble::TileBag.new
+      user_hand = @person.draw_tiles(tilebag)
+      yes_hand = user_hand.sample(rand(1..7))
+      @person.play(yes_hand).must_equal true
+    end
   end
 
 end
