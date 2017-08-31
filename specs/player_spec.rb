@@ -90,17 +90,16 @@ describe "Player class" do
     end
   end
 
-  xdescribe "highest_word_score method" do
+  describe "highest_word_score method" do
     it "Gives the highest score received for a word" do
       first_hand = @person.draw_tiles(@tilebag)
       first_word = first_hand.join
-      @person.play(first_hand)
+      @person.play(first_word)
       second_hand = @person.draw_tiles(@tilebag)
       @person.play(second_hand.sample(3).join)
-      # third_hand = @person.draw_tiles(@tilebag)
-      # @person.play(third_hand.sample(4).join)
+      third_hand = @person.draw_tiles(@tilebag)
+      @person.play(third_hand.sample(4).join)
       @person.highest_word_score.must_equal Scrabble::Scoring.score(first_word)
-      # Scoring.score(Scoring.highest_score(@plays))
     end
   end
 
