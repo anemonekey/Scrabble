@@ -1,6 +1,6 @@
 require_relative 'spec_helper'
 
-describe "Tilebag class" do
+describe "TileBag class" do
   before do
     @tilebag = Scrabble::TileBag.new
   end
@@ -15,11 +15,11 @@ describe "Tilebag class" do
 
   describe "#draw_tiles(num) method" do
     it "Returns a collection of random tiles" do
-      @tilebag.draw_tiles(3).class.must_equal Array
+      @tilebag.draw_tiles(4).class.must_equal Array
     end
     it "Removes the drawn tiles from the tilebag" do
       before_remove = @tilebag.tiles.values
-      @tilebag.draw_tiles(3)
+      @tilebag.draw_tiles(4)
       after_remove = @tilebag.tiles.values
       before_remove.wont_equal after_remove
     end

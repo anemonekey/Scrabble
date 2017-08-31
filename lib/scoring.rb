@@ -52,17 +52,6 @@ module Scrabble
         return highest_scores[0]
       end
 
-      #checking for 7 letters
-      # if highest_scores.max_by { |word| word.length } == 7
-      #   seven_letters = []
-      #   highest_scores.each do |word|
-      #     if word.length == 7
-      #       seven_letters << word
-      #     end
-      #   end
-      #   return seven_letters[0]
-      # end
-
       highest_scores.each do |word|
         if word.length == 7
           return word
@@ -71,19 +60,6 @@ module Scrabble
 
       #checking for fewer letters
       return highest_scores.min_by { |word| word.length }
-
-      # fewer_letters = []
-      # highest_scores.each do |word|
-      #   if word.length == low
-      #     fewer_letters << word
-      #   end
-      # end
-      # highest_scores.each do |word|
-      #   if word.length == low.length
-      #     return word
-      #   end
-      # end
-      # return fewer_letters[0]
 
     end #end of highest_score method
 

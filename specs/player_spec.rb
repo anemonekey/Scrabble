@@ -92,28 +92,32 @@ describe "Player class" do
 
   describe "draw_tiles(tilebag) method" do
     it "Fills empty tiles Array with 7 letters" do
-      tilebag = TileBag.new
+      tilebag = Scrabble::TileBag.new
       @person.draw_tiles(tilebag)
-      @person.tiles.length.must_be 7
+      @person.tiles.length.must_equal 7
     end
 
     it "Fills tiles Array after playing a word with 7 letters" do
-      tilebag = TileBag.new
+      tilebag = Scrabble::TileBag.new
       @person.draw_tiles(tilebag)
       @person.play("#{@person.tiles[0]}#{@person.tiles[1]}")
       @person.draw_tiles(tilebag)
-      @person.tiles.length.must_be 7
+      @person.tiles.length.must_equal 7
     end
 
     it "Does not give tiles when taking more tiles than inside tilebag" do
-      tilebag = TileBag.new
+      tilebag = Scrabble::TileBag.new
       14.times do
         @person.draw_tiles(tilebag)
-        @person.play("#{@person.tiles[0]}#{@person.tiles[1]}#{@person.tiles[2]}#{@person.tiles[3]}#{@person.tiles[4]}#{@person.tiles[5]}#{@person.tiles[6]}")
+        tiles = @person.tiles.map { |letter| letter.to_s }
+        @person.play("#{@person.tiles.join}")
       end
       @person.draw_tiles(tilebag)
-      @person.tiles.length.must_be 0
+      @person.tiles.length.must_equal 0
     end
+
+#not deleting from tile bag
+
   end
 
 end

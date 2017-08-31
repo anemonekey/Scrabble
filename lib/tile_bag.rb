@@ -12,13 +12,17 @@ module Scrabble
     def draw_tiles(num)
       available_tiles = @tiles.select { |key, value| value != 0 }
 
-      drawn_tiles = available_tiles.keys.sample(num)
-      @tiles.each do |key, value|
-        if drawn_tiles.include?(key.to_sym)
-          @tiles[key] = value - 1
+      if tiles_remaining > 0
+        drawn_tiles = available_tiles.keys.sample(num)
+        @tiles.each do |key, value|
+          if drawn_tiles.include?(key.to_sym)
+            @tiles[key] = value - 1
+          end
         end
+        return drawn_tiles
       end
-      return drawn_tiles
+      return "No tiles left"
+
     end #end of draw method
 
     def tiles_remaining
