@@ -14,28 +14,55 @@ module Scrabble
       @tiles = []
     end
 
+    def string?(word)
+      if word.class == String
+        return true
+      end
+      return false
+    end #end of string?
+
+    def valid?(word)
+      count = 0
+      length = 0
+      for i in 0 ... word.length
+        if @tiles.include?(word[i].upcase.to_sym)
+          count += 1
+          length += 1
+        end
+      end
+      if length == word.length
+        return true
+      end
+      return false
+    end #end of valid?
+
+
     def play(word)
       if won?
         return false
       end
 
-      score = Scoring.score(word)
-      @total_score += score
+      if  string?(word) && valid?(word)
 
-      index = 0
-      while index < @tiles.length
-        if word.upcase.include?(@tiles[index].to_s)
-          @tiles.delete(@tiles[index])
-        else
-          index += 1
+        score = Scoring.score(word)
+        @total_score += score
+
+        index = 0
+        while index < @tiles.length
+          if word.upcase.include?(@tiles[index].to_s)
+            @tiles.delete(@tiles[index])
+          else
+            index += 1
+          end
         end
-      end
 
-      if score > 0
-        @plays << word
-      end
+        if score > 0
+          @plays << word
+        end
 
-      return score
+        return score
+      end
+      return false
     end #end of play(word)
 
     def won?
@@ -76,7 +103,18 @@ module Scrabble
 
 end #end of module Scrabble
 
+#tests
+
+# person = Scrabble::Player.new("Ursula")
+# tilebag = Scrabble::TileBag.new
 #
+# person.draw_tiles(tilebag)
+# if person.play("hello") == false
+#   puts "cpassed"
+# end
+
+
+
 # person = Scrabble::Player.new("Ursula")
 # tilebag = Scrabble::TileBag.new
 # 10.times do
