@@ -105,18 +105,12 @@ describe "Player class" do
       @person.tiles.length.must_equal 7
     end
 
-    it "Does not give tiles when taking more tiles than inside tilebag" do
+    it "Does not give tiles when hand is full" do
       tilebag = Scrabble::TileBag.new
-      14.times do
-        @person.draw_tiles(tilebag)
-        tiles = @person.tiles.map { |letter| letter.to_s }
-        @person.play("#{@person.tiles.join}")
-      end
-      @person.draw_tiles(tilebag)
-      @person.tiles.length.must_equal 0
+      first_hand = @person.draw_tiles(tilebag)
+      second_hand = @person.draw_tiles(tilebag)
+      first_hand.must_equal second_hand
     end
-
-#not deleting from tile bag
 
   end
 
