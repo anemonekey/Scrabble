@@ -7,19 +7,21 @@ describe "Player class" do
     @tilebag = Scrabble::TileBag.new
   end
 
-  describe "@name instance variable" do
+  describe "Instance variables" do
     it "Returns the value of @name" do
       @person.name.must_equal "Ursula"
     end
-  end
 
-  describe "@plays Array" do
     it "Returns an Array of words played" do
       @person.plays.must_be_kind_of Array
     end
+
+    it "Returns a Hash of user's tiles" do
+      @person.tiles.tiles.must_be_kind_of Hash
+    end
   end
 
-  describe "play(word) method" do
+  describe "#play(word) method" do
     it "Does not add empty words to plays Array" do
       @person.play("")
       @person.plays.must_be_empty
@@ -35,12 +37,12 @@ describe "Player class" do
       @person.plays.must_equal [first_word, second_word]
     end
 
-    it "Returns 0 when given an Integer" do
+    it "Returns false when given an Integer" do
       @person.play(33).must_equal false
     end
   end
 
-  describe "total_score variable" do
+  describe "@total_score variable" do
     it "Returns the sum of scored words" do
       first_hand = @person.draw_tiles(@tilebag)
       first_word = first_hand.sample(rand(1..7)).join
@@ -104,26 +106,29 @@ describe "Player class" do
   end
 
   describe "tiles variable" do
-    it "Is an Array" do
-      @person.tiles.must_be_kind_of Array
+    it "Is a Hash" do
+      @person.tiles.must_be_kind_of Hash
     end
 
-    it "Does not have more than 7 tiles" do
-      @person.tiles.length.must_be :<=, 7
+    it "Has 26 key-value pairs" do
+      @person.tiles.length.must_equal 26
     end
   end
 
   describe "draw_tiles(tilebag) method" do
-    it "Fills empty tiles Array with 7 letters" do
+    it "Fills empty tiles Hash with 7 letters" do
       @person.draw_tiles(@tilebag)
-      @person.tiles.length.must_equal 7
+      tiles = @person.tiles.map { |key, value| value.sum }
+      tiles.must_equal 7
     end
 
-    it "Fills tiles Array after playing a word with 7 letters" do
+    it "Fills tiles Hash after playing a word with 7 letters" do
       @person.draw_tiles(@tilebag)
-      @person.play("#{@person.tiles[0]}#{@person.tiles[1]}")
+      playable_tiles = @person.tiles.select { |key, value| value > 0 }
+      @person.play("#{playable_tiles.keys[0]}#{playable_tiles.keys[1]}")
       @person.draw_tiles(@tilebag)
-      @person.tiles.length.must_equal 7
+      tiles = @person.tiles.map { |key, value| value.sum }
+      tiles.must_equal 7
     end
 
     it "Does not give tiles when hand is full" do
@@ -141,7 +146,7 @@ describe "Player class" do
       not_hand = []
       rand(1..7).times do
         letter = alphabet.sample(1)
-        not_hand << letter unless user_hand.include? letter
+        not_hand << letter unless user_hand.keys.to_s include? letter
       end
       @person.valid?((not_hand).join).must_equal false
     end
