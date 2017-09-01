@@ -6,17 +6,16 @@ module Scrabble
 
   class Dictionary
 
-    dictionary = []
+    def initialize
+      @words = []
 
-    CSV.open("support/dictionary.csv", "r").each do |word|
-      dictionary << word[0]
-    end
-
-    def self.valid?(word)
-      if dictionary.include?(word.lowcase)
-        return true
+      CSV.open("support/dictionary.csv", "r").each do |word|
+        @words << word[0]
       end
-      return true
+    end #end of initialize
+
+    def valid?(word)
+      return @words.include?(word.lowcase)
     end #end of method
 
   end #end of class

@@ -14,6 +14,8 @@ module Scrabble
     }
 
     def self.score(word)
+        # TODO add input check
+
         count = 0
         for i in 0 ... word.to_s.length
           SCORES.each do |key, value|
@@ -49,6 +51,7 @@ module Scrabble
         return highest_scores[0]
       end
 
+      #checking for long words
       highest_scores.each do |word|
         if word.length == 7
           return word
@@ -59,6 +62,7 @@ module Scrabble
       return highest_scores.min_by { |word| word.length }
 
     end #end of highest_score method
+
 
   end #end of class Scoring
 

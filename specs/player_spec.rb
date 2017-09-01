@@ -1,9 +1,33 @@
 require_relative 'spec_helper'
 
+# TODO # For all existing tests
+# class MockDictionary
+#   def valid?(word)
+#     return true
+#   end
+# end
+#
+# # For checking that if word doesn't exist it will fail.
+# class MockDictionary2
+#   def valid?(word)
+#     return false
+#   end
+# end
+#
+# # a, b, c
+# class MockDictionary3
+#   def initialize
+#     @words = ["dog", "cat", "adsf"]
+#   end
+#   def valid?(word)
+#     return @words.include?(word)
+#   end
+# end
+
 describe "Player class" do
 
   before do
-    @person = Scrabble::Player.new("Ursula")
+    @person = Scrabble::Player.new("Ursula")#, MockDictionary.new())
     @tilebag = Scrabble::TileBag.new
   end
 
