@@ -41,25 +41,36 @@ module Scrabble
         return false
       end
 
-      if  string?(word) && valid?(word)# && @dictionary.valid?(word)
+      puts "==============="
+      puts "Valid #{valid?(word)}"
+      puts "==============="
+
+
+      if string?(word) && valid?(word)# && @dictionary.valid?(word)
+        @plays << word
 
         score = Scoring.score(word)
         @total_score += score
 
         # TODO Extract to separate method
         # TODO This should belong to TileBag class
-        index = 0
-        while index < @tiles.tiles.values.sum
-          if word.upcase.include?(@tiles[index].to_s)
-            @tiles.delete(@tiles[index])
-          else
-            index += 1
+        # index = 0
+        # while index < @tiles.tiles.values.sum
+        #   if word.upcase.include?(@tiles[index].to_s)
+        #     @tiles.delete(@tiles[index])
+        #   else
+        #     index += 1
+        #   end
+        # end
+        @tiles.tiles.each do |key, value|
+          if word.upcase.include?(key.to_s)
+            @tiles.tiles[key] -= 1
           end
         end
 
-        if score > 0
-          @plays << word
-        end
+        # if score > 0
+
+        # end
 
         return score
       end
@@ -100,19 +111,29 @@ module Scrabble
           @tiles.tiles[tile.upcase.to_sym] += 1
           # puts @tiles.tiles
         end
-        return @tiles.tiles
+        return @tiles.tiles.keys
       end
       return false
     end #end of draw_tiles
 
     def valid?(word)
+      count = 0
       for i in 0 ... word.length
-        available_tiles = @tiles.tiles.select { |key, value| value > 0 }
-        if available_tiles.keys.include?(word[i].upcase.to_sym)
+        # available_tiles = @tiles.tiles.select { |key, value| value > 0 }
+        # if available_tiles.keys.include?(word[i].upcase.to_sym)
+        puts @tiles.tiles
+        if @tiles.tiles[word[i].upcase.to_sym] > 0
           @tiles.tiles[word[i].upcase.to_sym] -= 1
+          puts word[i], word[i].class
+          # @tiles.tiles[word[i].to_sym] -= 1
+          count += 1
+          puts count
         end
+        # end
       end
-      return @tiles.tiles.values.sum == word.length
+      puts count
+      puts word.length
+      return count == word.length
     end #end of valid?
 
   end #end of class Player
@@ -124,15 +145,23 @@ end #end of module Scrabble
 person = Scrabble::Player.new("Ursula")
 tilebag = Scrabble::TileBag.new
 
+# puts person.name
+# puts "*****"
+# person.draw_tiles(tilebag)
+# puts "*****"
+# puts person.tiles.tiles
+# if person.play("hello") == false
+#   puts "passed"
+# end
 puts person.name
-puts "*****"
-person.draw_tiles(tilebag)
-puts "*****"
-puts person.tiles.tiles
-if person.play("hello") == false
-  puts "passed"
-end
 
+person.draw_tiles(tilebag)
+playable_tiles = person.tiles.tiles.select { |key, value| value > 0 }
+puts playable_tiles
+first_word = playable_tiles.keys.sample(rand(1..7)).join
+puts first_word
+
+person.play(first_word)
 
 
 # person = Scrabble::Player.new("Ursula")
