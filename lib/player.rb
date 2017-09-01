@@ -15,10 +15,7 @@ module Scrabble
     end
 
     def string?(word)
-      if word.class == String
-        return true
-      end
-      return false
+      return word.class == String
     end #end of string?
 
     def valid?(word)
@@ -30,10 +27,7 @@ module Scrabble
           length += 1
         end
       end
-      if length == word.length
-        return true
-      end
-      return false
+      return length == word.length
     end #end of valid?
 
 
@@ -66,10 +60,7 @@ module Scrabble
     end #end of play(word)
 
     def won?
-      if @total_score >= 100
-        return true
-      end
-      return false
+      return @total_score >= 100
     end #end of won?
 
     def highest_scoring_word
@@ -102,32 +93,3 @@ module Scrabble
   end #end of class Player
 
 end #end of module Scrabble
-
-#tests
-
-# person = Scrabble::Player.new("Ursula")
-# tilebag = Scrabble::TileBag.new
-#
-# person.draw_tiles(tilebag)
-# if person.play("hello") == false
-#   puts "cpassed"
-# end
-
-
-
-# person = Scrabble::Player.new("Ursula")
-# tilebag = Scrabble::TileBag.new
-# 10.times do
-#   print "Tiles bofore draw: #{person.tiles} - #{person.tiles.length}"
-#   person.draw_tiles(tilebag)
-#   puts "Tiles after draw #{person.tiles} - #{person.tiles.length}\nTiles in bag: #{tilebag.tiles}"
-#   puts "*****"
-#   tiles = person.tiles.map { |letter| letter.to_s }
-#   puts "*****"
-#   puts "Person plays with word : #{person.tiles.join}"
-#   person.play("#{person.tiles.join}")
-#   puts "Tiles after 1 play, should be 0: #{person.tiles} - #{person.tiles.length}. Tiles in bag: #{tilebag.tiles_remaining}\nTiles in bag: #{tilebag.tiles}"
-#   puts
-# end
-# person.draw_tiles(tilebag)
-# person.tiles.length.must_equal 0
