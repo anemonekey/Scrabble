@@ -7,48 +7,49 @@ module Scrabble
 
     attr_reader :name, :plays, :total_score, :tiles
 
-    def initialize(name)
+    def initialize(name) #, dictionary
       @name = name
       @plays = []
       @total_score = 0
-      @tiles = []
+      # TODO tiles can be empty TileBag class instance
+      @tiles = TileBag.new(true)
+      # @dictionary = dictionary
     end
 
+    # TODO Make class method
+    # TODO Consider moving to separate Utils class
     def string?(word)
-      if word.class == String
-        return true
-      end
-      return false
+      return word.class == String
     end #end of string?
 
-    def valid?(word)
-      count = 0
-      length = 0
-      for i in 0 ... word.length
-        if @tiles.include?(word[i].upcase.to_sym)
-          count += 1
-          length += 1
-        end
-      end
-      if length == word.length
-        return true
-      end
-      return false
-    end #end of valid?
+   # TODO Check for duplicate letters, separate tiles object. Add new tests.
+   # TODO consider making private method
+   # TODO consider moving private methods to the end of the file
+   # A=1 AAAAAAA
+   # TODO This method should belong to Tilebag class.
+
+
 
 
     def play(word)
+      # TODO Move argument checks at first.
+      #if not string?(word)
+      #  return false
+      #end
+
       if won?
         return false
       end
 
-      if  string?(word) && valid?(word)
+      if  string?(word) && valid?(word)# && @dictionary.valid?(word)
 
         score = Scoring.score(word)
         @total_score += score
 
+        # TODO Extract to separate method
+        # TODO This should belong to TileBag class
         index = 0
-        while index < @tiles.length
+        while index < @tiles.tiles.values.sum
           if word.upcase.include?(@tiles[index].to_s)
             @tiles.delete(@tiles[index])
           else
@@ -66,10 +67,7 @@ module Scrabble
     end #end of play(word)
 
     def won?
-      if @total_score >= 100
-        return true
-      end
-      return false
+      return @total_score >= 100
     end #end of won?
 
     def highest_scoring_word
@@ -80,24 +78,42 @@ module Scrabble
       return Scoring.score(Scoring.highest_score(@plays))
     end #end of highest_word_score
 
-
-
     def draw_tiles(tile_bag)
+      # puts "Tiles: #{@tiles}"
+
       if won?
         return false
       end
 
+      # TODO It is possible to make it more compact
       if tile_bag.tiles_remaining > 0
-        if tile_bag.tiles_remaining >= (7 - @tiles.length)
-          new_tiles = tile_bag.draw_tiles(7 - @tiles.length)
+        if tile_bag.tiles_remaining >= (7 - @tiles.tiles.values.sum)
+          new_tiles = tile_bag.draw_tiles(7 - @tiles.tiles.values.sum)
         else
           new_tiles = tile_bag.draw_tiles(tile_bag.tiles_remaining)
         end
-        new_tiles.each  { |tile| @tiles << tile }
-        return @tiles
+        # new_tiles.each  { |tile| @tiles << tile }
+        # puts "keys: #{@tiles.tiles.keys}"
+        new_tiles.each do |tile|
+          # puts "checking against #{tile}"
+          # puts tile.class
+          @tiles.tiles[tile.upcase.to_sym] += 1
+          # puts @tiles.tiles
+        end
+        return @tiles.tiles
       end
       return false
     end #end of draw_tiles
+
+    def valid?(word)
+      for i in 0 ... word.length
+        available_tiles = @tiles.tiles.select { |key, value| value > 0 }
+        if available_tiles.keys.include?(word[i].upcase.to_sym)
+          @tiles.tiles[word[i].upcase.to_sym] -= 1
+        end
+      end
+      return @tiles.tiles.values.sum == word.length
+    end #end of valid?
 
   end #end of class Player
 
@@ -105,13 +121,17 @@ end #end of module Scrabble
 
 #tests
 
-# person = Scrabble::Player.new("Ursula")
-# tilebag = Scrabble::TileBag.new
-#
-# person.draw_tiles(tilebag)
-# if person.play("hello") == false
-#   puts "cpassed"
-# end
+person = Scrabble::Player.new("Ursula")
+tilebag = Scrabble::TileBag.new
+
+puts person.name
+puts "*****"
+person.draw_tiles(tilebag)
+puts "*****"
+puts person.tiles.tiles
+if person.play("hello") == false
+  puts "passed"
+end
 
 
 
